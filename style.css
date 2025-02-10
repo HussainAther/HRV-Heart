@@ -1,0 +1,29 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #ffe5ec;
+    color: #ff477e;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+canvas {
+    width: 80%;
+    height: 200px;
+    background-color: white;
+    border: 2px solid #ff477e;
+    margin-top: 20px;
+}
+h1 {
+    font-size: 2rem;
+}
+p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+#heart-rate, #sync-status {
+    font-size: 1.5rem;
+    margin-top: 10px;
+}
