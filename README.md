@@ -26,7 +26,7 @@
 ## 🏗️ Development Setup
 1. Clone the repository:
    ```bash
-   git clone https://github.com/YOUR-USERNAME/HRV-Heart.git
+   git clone https://github.com/HussainAther/HRV-Heart.git
    cd HRV-Heart
    ```
 2. Open `index.html` in your browser or use a local server:
