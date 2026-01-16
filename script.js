@@ -34,7 +34,11 @@ function detectHeartbeat() {
 function calculateHRV() {
   if (rrIntervals.length < 2) return;
   const avgRR = rrIntervals.reduce((a, b) => a + b, 0) / rrIntervals.length;
-  const bpm = 60000 / avgRR;
-  heartRateDisplay.innerText = `Heart Rate: ${Math.round(bpm)} BPM`;
-}
+  const bpm = Math.round(60000 / avgRR); // Clean integer for display
+  heartRateDisplay.innerText = `Heart Rate: ${bpm} BPM`;
 
+  // ADD THIS LINE:
+  if (typeof syncHeartRate === "function") {
+    syncHeartRate(bpm);
+  }
+}
