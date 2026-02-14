@@ -1,8 +1,5 @@
-This README is designed to be clear for your friends on Slack and professional for your GitHub portfolio. It explains exactly how to use the "sync" feature you've built.
-
----
-
 # ❤️ HRV-Heart
+
 
 **HRV-Heart** is an experimental web application that allows two people to synchronize their heartbeats in real-time using nothing but a webcam. Built for Valentine's Day, it uses Photoplethysmography (PPG) to detect heart rate variability (HRV) and Firebase to bridge the distance between two hearts.
 
