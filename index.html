@@ -8,95 +8,21 @@
 </head>
 <body>
     <h1>HRV-Heart ❤️</h1>
-    <p>Sync your heartbeat with a loved one!</p>
-    <video id="webcam" autoplay playsinline></video>
+    <p>Place your finger over the camera to start</p>
+    
+    <div class="heart-container">
+        <img id="main-heart" class="heart-icon" src="https://img.icons8.com/color/48/hearts.png" alt="hearts">
+    </div>
+
+    <video id="webcam" autoplay playsinline style="display:none;"></video>
     <canvas id="waveform"></canvas>
-    <div id="heart-rate">Heart Rate: -- BPM</div>
-    <div id="sync-status">Waiting for partner...</div>
-    <script src="script.js" defer></script>
-    <script src="firebase.js" defer></script>
+    
+    <div class="stats">
+        <div id="heart-rate">BPM: --</div>
+        <div id="sync-status">Waiting for partner...</div>
+    </div>
+
+    <script src="firebase.js" type="module"></script>
+    <script src="script.js" type="module"></script>
 </body>
 </html>
-
-/* style.css - Basic Styling */
-body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background-color: #ffe5ec;
-    color: #ff477e;
-}
-canvas {
-    width: 100%;
-    height: 200px;
-    background-color: white;
-    border: 2px solid #ff477e;
-}
-
-/* script.js - Heartbeat Detection & Visualization */
-const video = document.getElementById("webcam");
-const canvas = document.getElementById("waveform");
-const ctx = canvas.getContext("2d");
-const heartRateDisplay = document.getElementById("heart-rate");
-let frameData = [];
-let lastPeakTime = null;
-let rrIntervals = [];
-
-navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } })
-  .then(stream => {
-    video.srcObject = stream;
-    video.play();
-  })
-  .catch(err => console.error("Camera access denied: ", err));
-
-function detectHeartbeat() {
-  if (frameData.length < 2) return;
-  const maxValue = Math.max(...frameData);
-  const minValue = Math.min(...frameData);
-  const threshold = (maxValue + minValue) / 2;
-  if (frameData[frameData.length - 1] > threshold && frameData[frameData.length - 2] <= threshold) {
-    const now = performance.now();
-    if (lastPeakTime) {
-      const rrInterval = now - lastPeakTime;
-      rrIntervals.push(rrInterval);
-      if (rrIntervals.length > 10) rrIntervals.shift();
-      calculateHRV();
-    }
-    lastPeakTime = now;
-  }
-}
-
-function calculateHRV() {
-  if (rrIntervals.length < 2) return;
-  const avgRR = rrIntervals.reduce((a, b) => a + b, 0) / rrIntervals.length;
-  const bpm = 60000 / avgRR;
-  heartRateDisplay.innerText = `Heart Rate: ${Math.round(bpm)} BPM`;
-}
-
-/* firebase.js - Firebase Real-Time Sync */
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
-import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-database.js";
-
-const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  databaseURL: "YOUR_DATABASE_URL",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
-};
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-const heartRateRef = ref(db, 'heartbeats');
-
-function syncHeartRate(bpm) {
-  set(heartRateRef, { bpm });
-}
-
-onValue(heartRateRef, (snapshot) => {
-  const data = snapshot.val();
-  if (data) {
-    document.getElementById("sync-status").innerText = `Partner’s Heart Rate: ${data.bpm} BPM`;
-  }
-});
-
