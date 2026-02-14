@@ -7,22 +7,32 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>HRV-Heart ❤️</h1>
-    <p>Place your finger over the camera to start</p>
-    
-    <div class="heart-container">
-        <img id="main-heart" class="heart-icon" src="https://img.icons8.com/color/48/hearts.png" alt="hearts">
-    </div>
 
-    <video id="webcam" autoplay playsinline style="display:none;"></video>
-    <canvas id="waveform"></canvas>
-    
-    <div class="stats">
-        <div id="heart-rate">BPM: --</div>
-        <div id="sync-status">Waiting for partner...</div>
+    <div class="container">
+        <h1>HRV-Heart ❤️</h1>
+        <p>Sync your heartbeat in real-time</p>
+        
+        <div class="heart-container">
+            <img id="main-heart" class="heart-icon" src="https://img.icons8.com/color/48/hearts.png" alt="hearts">
+        </div>
+
+        <canvas id="waveform"></canvas>
+        
+        <div class="stats-panel">
+            <div id="heart-rate">BPM: --</div>
+            <div id="sync-status">Waiting for partner...</div>
+        </div>
+
+        <div class="instructions">
+            <small>Tip: Cover your camera lens completely with your finger.</small>
+        </div>
+
+        <video id="webcam" autoplay playsinline style="display:none;"></video>
     </div>
 
     <script src="firebase.js" type="module"></script>
+    
     <script src="script.js" type="module"></script>
+
 </body>
 </html>
